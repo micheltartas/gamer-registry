@@ -6,10 +6,14 @@ const db = require('../db');
 router.get('/', async (req, res) => {
     try {
         const result = await db.query(`
-            SELECT gg.id, g.nickname, gm.title
+            SELECT 
+                gg.gamer_id,
+                g.nickname,
+                gg.game_id,
+                gm.title
             FROM gamer_games gg
             JOIN gamers g ON g.id = gg.gamer_id
-            JOIN games gm ON gm.id = gg.game_id
+            JOIN games gm ON gm.id = gg.game_id;
         `);
 
         res.json(result.rows);
