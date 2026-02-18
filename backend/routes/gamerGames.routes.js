@@ -7,20 +7,24 @@ router.get('/', async (req, res) => {
     try {
         const result = await db.query(`
             SELECT 
-                gg.gamer_id,
+                gg.gamer_id AS "gamerId",
                 g.nickname,
-                gg.game_id,
+                gg.game_id AS "gameId",
                 gm.title
             FROM gamer_games gg
             JOIN gamers g ON g.id = gg.gamer_id
-            JOIN games gm ON gm.id = gg.game_id;
+            JOIN games gm ON gm.id = gg.game_id
+            ORDER BY g.nickname, gm.title;
         `);
 
         res.json(result.rows);
+
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao listar associações' });
     }
 });
+
 
 
 /* CRIAR ASSOCIAÇÃO */
