@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
 });
 
 
-/* DELETAR ASSOCIAÇÃO */
+/* DELETAR ASSOCIAÇÃO POR ID */
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -55,6 +55,22 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+/* DELETAR ASSOCIAÇÃO */
+router.delete('/', async (req, res) => {
+
+    const { gamer_id, game_id } = req.body;
+
+    await db.query(
+        'DELETE FROM gamer_games WHERE gamer_id=$1 AND game_id=$2',
+        [gamer_id, game_id]
+    );
+
+    res.sendStatus(204);
+});
+
+
+
 
 
 module.exports = router;
