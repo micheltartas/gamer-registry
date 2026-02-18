@@ -1,3 +1,5 @@
+CREATE DATABASE gamer_registry;
+
 CREATE TABLE gamers (
     id SERIAL PRIMARY KEY,
     nickname VARCHAR(50) NOT NULL,

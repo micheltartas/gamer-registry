@@ -1,17 +1,30 @@
 const express = require('express');
-const cors = require('cors');
-
-const gamersRoutes = require('./routes/gamers.routes');
-const gamesRoutes = require('./routes/games.routes');
+const path = require('path');
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
-app.use('/gamers', gamersRoutes);
-app.use('/games', gamesRoutes);
+/* ===== ROTAS DA API ===== */
+const gamersRoutes = require('./routes/gamers.routes');
+const gamesRoutes = require('./routes/games.routes');
+const gamerGamesRoutes = require('./routes/gamerGames.routes');
+
+app.use('/api/gamers', gamersRoutes);
+app.use('/api/games', gamesRoutes);
+app.use('/api/gamer-games', gamerGamesRoutes);
+
+
+/* ===== FRONTEND ===== */
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+
+/* ===== ROTA PADRÃO ===== */
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
 
 app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+    console.log('Servidor rodando em http://localhost:3000');
 });
